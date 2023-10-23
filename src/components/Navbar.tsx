@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { MobileNavbar } from "./MobileNavbar";
-import { CNavLink as NavLink } from "./NavLink";
+import { NavLink } from "./NavLink";
 
 export const Navbar: FC<{}> = () => {
     return (

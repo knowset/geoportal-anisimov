@@ -1,6 +1,6 @@
 import { Menu, Pentagon, Waypoints, X } from "lucide-react";
 import { FC, useCallback, useState } from "react";
-import { CNavLink as NavLink } from "./NavLink";
+import { NavLink } from "./NavLink";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const MobileNavbar: FC<{}> = () => {
@@ -27,7 +27,10 @@ export const MobileNavbar: FC<{}> = () => {
             </div>
             <AnimatePresence>
                 {open && (
-                    <div
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         className="absolute left-0 top-16 w-full h-[calc(100vh_-_4rem)] backdrop-blur-sm bg-white/30"
                         onClick={toggleOpen}
                     >
@@ -42,24 +45,35 @@ export const MobileNavbar: FC<{}> = () => {
                             <motion.div
                                 initial={{
                                     width: "100%",
+                                    translateX: -500,
                                 }}
                                 animate={{
-                                    transition: { ease: "easeIn", duration: 0 },
+                                    translateX: 0,
+                                    transition: {
+                                        ease: "easeInOut",
+                                        duration: 0,
+                                    },
                                 }}
-                                exit={{ opacity: 0, translateX: "-100%" }}
+                                exit={{ opacity: 0, translateX: -500 }}
                                 className="flex flex-col p-4 text-2xl gap-4 overflow-hidden"
                             >
-                                <NavLink to="/">
+                                {/* Fixme: Доделать анимацию для ссылок */}
+
+                                <NavLink to="/" device="mobile" active="mobile">
                                     <Waypoints className="text-[#5d56ff]" />
                                     Нахождение пути
                                 </NavLink>
-                                <NavLink to="/availability_zones">
+                                <NavLink
+                                    to="/availability_zones"
+                                    device="mobile"
+                                    active="mobile"
+                                >
                                     <Pentagon className="text-[#5d56ff]" />
                                     Зоны доступности
                                 </NavLink>
                             </motion.div>
                         </motion.div>
-                    </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>
