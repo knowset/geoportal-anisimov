@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FindZoneMap } from "../components/FindZoneMap";
 
-export const AvailabilityZonespage = () => {
+const AvailabilityZonespage = () => {
     useEffect(() => {
         document.getElementsByTagName("title")[0].textContent =
             "Гео-Портал | Зоны доступности";
@@ -15,3 +15,5 @@ export const AvailabilityZonespage = () => {
         </div>
     );
 };
+
+export default AvailabilityZonespage;

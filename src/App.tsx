@@ -1,7 +1,11 @@
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { AvailabilityZonespage } from "./pages/AvailabilityZonespage";
-import { Homepage } from "./pages/Homepage";
+
+const Homepage = lazy(() => import("./pages/Homepage"));
+const AvailabilityZonespage = lazy(
+    () => import("./pages/AvailabilityZonespage")
+);
 
 function App() {
     return (

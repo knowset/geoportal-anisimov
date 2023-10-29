@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { FindWaysMap } from "../components/FindWaysMap";
+import { FindRoutesMap } from "../components/FindRoutesMap";
 
-export const Homepage = () => {
+const Homepage = () => {
     useEffect(() => {
         document.getElementsByTagName("title")[0].textContent =
             "Гео-Портал | Нахождение пути";
     });
 
-    return <FindWaysMap />;
+    return <FindRoutesMap />;
 };
+
+export default Homepage;
