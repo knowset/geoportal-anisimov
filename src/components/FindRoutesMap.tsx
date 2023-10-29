@@ -11,7 +11,14 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export const FindRoutesMap: FC<{}> = () => {
     const [markers, setMarkers] = useState<LatLng[]>([]);
-    const { data, error, isLoading } = useSwr("/highway-line.json", fetcher);
+
+    const { data, error, isLoading } = useSwr("/highway-line.json", fetcher, {
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnMount: false,
+    });
+
+    console.log(data);
 
     const deleteLastMarker: () => void = () => {
         if (markers.length > 0) {
