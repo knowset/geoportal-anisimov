@@ -1,16 +1,17 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { LatLng } from "leaflet";
+import useSwr from "swr";
+
 import { LocationMarkers } from "./LocationMarkers";
-import { type RoadMap } from "../libCpp/mapper";
 import { Loading } from "./Loading";
 import { Error as ErrorComp } from "./Error";
 
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
 export const FindRoutesMap: FC<{}> = () => {
     const [markers, setMarkers] = useState<LatLng[]>([]);
-    const [allRoutes, setAllRoutes] = useState<RoadMap | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [errors, setErrors] = useState<{ message: string }[]>([]);
+    const { data, error, isLoading } = useSwr("/highway-line.json", fetcher);
 
     const deleteLastMarker: () => void = () => {
         if (markers.length > 0) {
@@ -20,36 +21,13 @@ export const FindRoutesMap: FC<{}> = () => {
         setMarkers((current) => copy);
     };
 
-    useEffect(() => {
-        // Fixme: load highway-line.json into localstorage
-        const fetchData = async () => {
-            if (!isLoading) {
-                setIsLoading(true);
-                const res = await fetch("/highway-line.json");
-
-                const data = await res.json();
-
-                if (!data) {
-                    setErrors([{ message: "Не удалось загрузить дороги." }]);
-                    setIsLoading(false);
-                    return;
-                }
-
-                setAllRoutes(data);
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
     if (isLoading) {
         return <Loading text="Загружаем дороги" />;
     }
 
-    if (errors.length > 0) {
+    if (error) {
         // FIXME: Change to ErrorComponents
-        return <ErrorComp text={errors[0].message} />;
+        return <ErrorComp text={error.toString()} />;
     }
 
     return (
