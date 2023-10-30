@@ -1,0 +1,5 @@
+{
+  "/availability_zones/page": "app/availability_zones/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/find_routes/page": "app/find_routes/page.js"
+}

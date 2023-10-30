@@ -1,9 +1,13 @@
 import { Menu, Pentagon, Waypoints, X } from "lucide-react";
-import { FC, useCallback, useState } from "react";
+import { FC, ReactNode, useCallback, useState } from "react";
 import { NavLink } from "./NavLink";
 import { motion, AnimatePresence } from "framer-motion";
 
-export const MobileNavbar: FC<{}> = () => {
+type MobileNavbarProps = {
+    navLinks: { title: string; href: string; icon: ReactNode }[];
+};
+
+export const MobileNavbar: FC<MobileNavbarProps> = ({ navLinks }) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const toggleOpen = useCallback(() => {
@@ -57,20 +61,17 @@ export const MobileNavbar: FC<{}> = () => {
                                 exit={{ opacity: 0, translateX: -500 }}
                                 className="flex flex-col p-4 text-2xl gap-4 overflow-hidden"
                             >
-                                {/* Fixme: Доделать анимацию для ссылок */}
-
-                                <NavLink to="/" device="mobile" active="mobile">
-                                    <Waypoints className="text-[#5d56ff]" />
-                                    Нахождение пути
-                                </NavLink>
-                                <NavLink
-                                    to="/availability_zones"
-                                    device="mobile"
-                                    active="mobile"
-                                >
-                                    <Pentagon className="text-[#5d56ff]" />
-                                    Зоны доступности
-                                </NavLink>
+                                {navLinks.map((link) => (
+                                    <NavLink
+                                        key={"mobile_nav_link_" + link.title}
+                                        href={link.href}
+                                        device="mobile"
+                                        active="mobile"
+                                    >
+                                        {link.icon}
+                                        {link.title}
+                                    </NavLink>
+                                ))}
                             </motion.div>
                         </motion.div>
                     </motion.div>

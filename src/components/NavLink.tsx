@@ -1,7 +1,8 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { FC } from "react";
-import { NavLink as Link, NavLinkProps } from "react-router-dom";
+import { AnchorHTMLAttributes, FC, ReactNode } from "react";
+import Link from "next/link";
 import { cn } from "../lib/cn";
+import { usePathname } from "next/navigation";
 
 const navLinkVariants = cva(
     "whitespace-nowrap inline-flex items-center gap-3 bg-gradient-to-r from-[#5d56ff] to-[#5d56ff] bg-left-bottom bg-no-repeat",
@@ -24,22 +25,31 @@ const navLinkVariants = cva(
     }
 );
 
-export const NavLink: FC<
-    NavLinkProps & VariantProps<typeof navLinkVariants>
-> = (props) => {
+type NavLinkProps = {
+    href: string;
+    children: ReactNode;
+} & AnchorHTMLAttributes<HTMLAnchorElement> &
+    VariantProps<typeof navLinkVariants>;
+
+export const NavLink: FC<NavLinkProps> = ({
+    children,
+    href,
+    device,
+    active,
+    ...props
+}) => {
+    const path = usePathname();
+    const isActive = href === path;
+
     return (
         <Link
             {...props}
-            className={({ isActive }) =>
-                cn(
-                    navLinkVariants({
-                        device: props.device,
-                        active: isActive ? props.active : null,
-                    })
-                )
-            }
+            href={href}
+            className={cn(
+                navLinkVariants({ device, active: isActive ? active : null })
+            )}
         >
-            {props.children}
+            {children}
         </Link>
     );
 };

@@ -1,7 +1,7 @@
 import { LatLng } from "leaflet";
 import { Dispatch, FC, SetStateAction } from "react";
 import { Marker, useMapEvents } from "react-leaflet";
-import { createMarkerIcon } from "../lib/MarkerIcon";
+import { createMarkerIcon } from "./MarkerIcon";
 
 type LocationMarkersProps = {
     markers: LatLng[];

@@ -1,7 +1,11 @@
-import { FC, Suspense } from "react";
+"use client";
+
+import { FC } from "react";
 import Logo from "./Logo";
 import { MobileNavbar } from "./MobileNavbar";
 import { NavLink } from "./NavLink";
+
+import { navLinks } from "../constants";
 
 export const Navbar: FC<{}> = () => {
     return (
@@ -9,11 +13,14 @@ export const Navbar: FC<{}> = () => {
             <Logo />
             <span className="h-10 w-[1px] bg-zinc-200 hidden sm:flex"></span>
             <div className="gap-8 text-lg hidden sm:flex">
-                <NavLink to="/">Нахождение пути</NavLink>
-                <NavLink to="/availability_zones">Зоны доступности</NavLink>
+                {navLinks.map((link) => (
+                    <NavLink key={"nav_link_" + link.title} href={link.href}>
+                        {link.title}
+                    </NavLink>
+                ))}
             </div>
             <div className="flex sm:hidden">
-                <MobileNavbar />
+                <MobileNavbar navLinks={navLinks} />
             </div>
         </nav>
     );
