@@ -2,7 +2,8 @@
 
 import { FC, useEffect, useState } from "react";
 
-export const Map: FC<{}> = (props) => {
+
+export const Map: FC<{}> = () => {
     const [Client, setClient] = useState<FC>();
 
     useEffect(() => {
@@ -18,7 +19,5 @@ export const Map: FC<{}> = (props) => {
         return null;
     }
 
-    console.log("HERE")
-
-    return Client ? <Client {...props} /> : null;
+    return Client ? <Client /> : null;
 };

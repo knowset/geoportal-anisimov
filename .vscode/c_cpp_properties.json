@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/knowset/.cache/node-gyp/20.8.0/include/node/",
+                "${workspaceFolder}/src/lib/mapper/node_modules/node-addon-api",
+                "${workspaceFolder}/src/lib/mapper/mapper"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}

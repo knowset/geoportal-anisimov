@@ -1,8 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
-import { LatLng } from "leaflet";
+import {
+    MapContainer,
+    Polygon,
+    Polyline,
+    Rectangle,
+    TileLayer,
+} from "react-leaflet";
+import { LatLng, LatLngBounds } from "leaflet";
 // import useSwr from "swr";
 
 import { LocationMarkers } from "./LocationMarkers";
@@ -11,55 +17,14 @@ import { LocationMarkers } from "./LocationMarkers";
 import { RotateCcw } from "lucide-react";
 import { Button } from "./Button";
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
-
-const route = {
-    type: "FeatureCollection",
-    features: [
-        {
-            type: "Feature",
-            geometry: {
-                type: "LineString",
-                coordinates: [
-                    [36.603329, 61.3755799],
-                    [36.6030427, 61.3745811],
-                    [36.6028639, 61.3740071],
-                    [36.6032648, 61.3733856],
-                    [36.6036122, 61.3726006],
-                    [36.6035636, 61.3718885],
-                    [36.6030347, 61.3710208],
-                ],
-            },
-            properties: {
-                NAME: "",
-                NAME_EN: "",
-                NAME_RU: "",
-                REF: "",
-                HIGHWAY: "track",
-                ONEWAY: "",
-                BRIDGE: "",
-                TUNNEL: "",
-                MAXSPEED: "",
-                LANES: "",
-                WIDTH: "",
-                SURFACE: "",
-                OSM_TYPE: "way",
-                OSM_ID: 4397210,
-            },
-        },
-    ],
-};
+const outerBounds = [
+    [50.505, -29.09],
+    [52.505, 29.09],
+];
 
 const FindRoutesMap: any = () => {
     const [markers, setMarkers] = useState<LatLng[]>([]);
-
-    // const { data, error, isLoading } = useSwr("/highway-line.json", fetcher, {
-    //     revalidateIfStale: false,
-    //     revalidateOnFocus: false,
-    //     revalidateOnMount: false,
-    // });
-
-    // console.log(data);
+    const [hitboxCoords, setHitboxCoords] = useState<[number, number][]>([]);
 
     const deleteLastMarker: () => void = () => {
         if (markers.length > 0) {
@@ -69,20 +34,23 @@ const FindRoutesMap: any = () => {
         setMarkers((current) => copy);
     };
 
-    // if (isLoading) {
-    //     return <Loading text="Загружаем дороги" />;
-    // }
+    const findRoutes: () => void = async () => {
+        const coordinates = markers.map((coord) => [coord.lat, coord.lng]);
+        console.log(coordinates);
+        const res = await fetch("http://localhost:3000/api/find_routes", {
+            method: "POST",
+            body: JSON.stringify(coordinates),
+            cache: "no-store",
+        });
 
-    // if (error) {
-    //     // FIXME: Change to ErrorComponents
-    //     return <ErrorComp text={error.toString()} />;
-    // }
+        const hbCoords = (await res.json()) as [number, number][];
 
-    // console.log(window);
+        // for (let i = 0; i < hbCoords.length; i++) {
+        //     coords.push(new LatLngBounds(new LatLng(5, 5), new LatLng(5, 5)));
+        // }
 
-    // if (!window) {
-    //     return null;
-    // }
+        setHitboxCoords(hbCoords);
+    };
 
     return (
         <>
@@ -96,6 +64,9 @@ const FindRoutesMap: any = () => {
             >
                 <TileLayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                 <LocationMarkers markers={markers} setMarkers={setMarkers} />
+                {hitboxCoords.length === 2 ? (
+                    <Rectangle bounds={hitboxCoords} />
+                ) : null}
             </MapContainer>
             {markers.length > 0 ? (
                 <div className="absolute h-16 w-full bottom-0 z-[1000] flex justify-center">
@@ -103,7 +74,7 @@ const FindRoutesMap: any = () => {
                         <Button onClick={deleteLastMarker}>
                             <RotateCcw />
                         </Button>
-                        <Button onClick={() => {}}>Построить маршрут</Button>
+                        <Button onClick={findRoutes}>Построить маршрут</Button>
                     </div>
                 </div>
             ) : null}

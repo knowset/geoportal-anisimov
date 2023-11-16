@@ -1,35 +1,40 @@
 {
-  "name": "gisi",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@react-leaflet/universal-leaflet": "^1.0.1",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "framer-motion": "^10.16.4",
-    "leaflet": "^1.9.4",
-    "lucide-react": "^0.290.0",
-    "next": "14.0.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-leaflet": "^4.2.1",
-    "swr": "^2.2.4",
-    "tailwind-merge": "^2.0.0"
-  },
-  "devDependencies": {
-    "@types/leaflet": "^1.9.7",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3",
-    "typescript": "^5"
-  }
+    "name": "gisi",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@knowset/mapper": "file:src/lib/mapper/knowset-mapper-0.0.2.tgz",
+        "@react-leaflet/universal-leaflet": "^1.0.1",
+        "argon2": "^0.31.1",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.0.0",
+        "framer-motion": "^10.16.4",
+        "geojson-path-finder": "^2.0.2",
+        "leaflet": "^1.9.4",
+        "lucide-react": "^0.290.0",
+        "next": "14.0.0",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-leaflet": "^4.2.1",
+        "swr": "^2.2.4",
+        "tailwind-merge": "^2.0.0"
+    },
+    "devDependencies": {
+        "@types/leaflet": "^1.9.7",
+        "@types/node": "20.8.10",
+        "@types/react": "18.2.33",
+        "@types/react-dom": "^18",
+        "autoprefixer": "^10",
+        "nextjs-node-loader": "^1.1.5-alpha.0",
+        "node-loader": "^2.0.0",
+        "postcss": "^8",
+        "tailwindcss": "^3",
+        "typescript": "5.2.2"
+    }
 }
